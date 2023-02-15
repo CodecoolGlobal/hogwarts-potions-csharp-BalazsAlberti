@@ -1,48 +1,40 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using HogwartsPotions.Models.Entities;
+using HogwartsPotions.Models.Enums;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
-namespace HogwartsPotions.Data
+namespace HogwartsPotions.Data;
+
+public class HogwartsContext : DbContext
 {
-    public class HogwartsContext : DbContext
+    public HogwartsContext(DbContextOptions<HogwartsContext> options) : base(options)
     {
-        public const int MaxIngredientsForPotions = 5;
+    }
 
-        public HogwartsContext(DbContextOptions<HogwartsContext> options) : base(options)
-        {
-        }
+    public DbSet<Student> Students { get; set; }
+    public DbSet<Room> Rooms { get; set; }
+    public DbSet<Recipe> Recipes { get; set; }
+    public DbSet<Ingredient> Ingredients { get; set; }
+    public DbSet<Potion> Potions { get; set; }
 
-        public async Task AddRoom(Room room)
-        {
-            throw new NotImplementedException();
-        }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Student>()
+            .ToTable("Student");
 
-        public Task<Room> GetRoom(long roomId)
-        {
-            throw new NotImplementedException();
-        }
+        modelBuilder.Entity<Room>()
+            .ToTable("Room");
 
-        public Task<List<Room>> GetAllRooms()
-        {
-            throw new NotImplementedException();
-        }
+        modelBuilder.Entity<Recipe>()
+            .ToTable("Recipe");
 
-        public async Task UpdateRoom(Room room)
-        {
-            throw new NotImplementedException();
-        }
+        modelBuilder.Entity<Ingredient>()
+            .ToTable("Ingredient");
 
-        public async Task DeleteRoom(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Room>> GetRoomsForRatOwners()
-        {
-            throw new NotImplementedException();
-        }
+        modelBuilder.Entity<Potion>()
+            .ToTable("Potion");
     }
 }
